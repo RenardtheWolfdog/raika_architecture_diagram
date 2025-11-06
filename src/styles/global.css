@@ -1,0 +1,221 @@
+:root {
+  color-scheme: dark;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: #060c1c;
+  color: #f4f7ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at top left, rgba(108, 139, 255, 0.18), transparent 45%),
+    radial-gradient(circle at bottom right, rgba(75, 214, 196, 0.18), transparent 45%),
+    linear-gradient(160deg, rgba(6, 12, 28, 0.94), rgba(6, 12, 28, 0.98));
+}
+
+.page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 120px 32px 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.hero {
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 13px;
+  color: rgba(196, 204, 255, 0.72);
+  margin: 0;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: 44px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.hero p {
+  margin: 0;
+  line-height: 1.6;
+  color: rgba(228, 233, 255, 0.85);
+  font-size: 15.4px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.diagram-card {
+  padding: 32px;
+  border-radius: 32px;
+  background: linear-gradient(145deg, rgba(9, 15, 30, 0.95), rgba(15, 24, 44, 0.95));
+  box-shadow: 0 40px 120px rgba(8, 12, 24, 0.6);
+  border: 1px solid rgba(110, 140, 255, 0.18);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  margin-bottom: 24px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: rgba(222, 229, 255, 0.78);
+}
+
+.legend-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+}
+
+.diagram {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.diagram svg {
+  width: 100%;
+  height: auto;
+  min-width: 1100px;
+}
+
+.cluster-title {
+  font-size: 16px;
+  font-weight: 600;
+  fill: rgba(222, 229, 255, 0.88);
+}
+
+.cluster-subtitle {
+  font-size: 12px;
+  fill: rgba(201, 208, 243, 0.65);
+}
+
+.edge {
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  fill: none;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.4));
+}
+
+.edge.dimmed {
+  opacity: 0.15;
+  stroke-width: 1.5;
+}
+
+.edge.highlighted {
+  stroke-width: 3.5;
+  filter: drop-shadow(0 0 8px currentColor);
+}
+
+.edge-label {
+  font-size: 12px;
+  font-weight: 500;
+  fill: rgba(232, 236, 255, 0.86);
+  text-anchor: middle;
+  paint-order: stroke;
+  stroke: rgba(6, 12, 28, 0.92);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.edge-label.dimmed {
+  opacity: 0.2;
+}
+
+.node {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.node rect {
+  transition: all 0.3s ease;
+}
+
+.node:hover rect {
+  filter: drop-shadow(0 0 12px currentColor) brightness(1.15);
+}
+
+.node-title {
+  font-size: 15px;
+  font-weight: 600;
+  fill: rgba(244, 247, 255, 0.94);
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+.node-subtitle {
+  font-size: 12px;
+  fill: rgba(193, 201, 234, 0.82);
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+}
+
+.details h2 {
+  margin: 0 0 16px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #f6f8ff;
+}
+
+.details ul {
+  margin: 0;
+  padding: 0 0 0 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: rgba(215, 222, 255, 0.82);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@media (max-width: 960px) {
+  .page {
+    padding: 96px 24px;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+  }
+
+  .details {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .details {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
