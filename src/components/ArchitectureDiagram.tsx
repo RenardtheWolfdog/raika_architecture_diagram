@@ -10,6 +10,10 @@ import {
 
 const ArchitectureDiagram = () => {
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
+  const [zoomLevel, setZoomLevel] = useState<number>(1);
+  const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
 
   const nodeMap = useMemo(() => {
     const map = new Map<string, Node>();
@@ -43,6 +47,42 @@ const ArchitectureDiagram = () => {
     return connected;
   };
 
+  // 마우스 이벤트 핸들러
+  const handleMouseDown = (e: React.MouseEvent<SVGSVGElement>) => {
+    // 노드를 클릭한 경우 드래그 방지
+    const target = e.target as Element;
+    if (target.closest('.node')) return;
+    
+    setIsDragging(true);
+    setDragStart({ x: e.clientX - panOffset.x, y: e.clientY - panOffset.y });
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
+    if (!isDragging) return;
+    const newX = e.clientX - dragStart.x;
+    const newY = e.clientY - dragStart.y;
+    setPanOffset({ x: newX, y: newY });
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+  };
+
+  // viewBox 계산: zoomLevel이 증가하면 viewBox가 작아져서 확대 효과
+  const baseWidth = 2400;
+  const baseHeight = 1300;
+  const viewBoxWidth = baseWidth / zoomLevel;
+  const viewBoxHeight = baseHeight / zoomLevel;
+  
+  // 팬 오프셋을 viewBox 좌표계로 변환 (반대 방향으로)
+  const panScale = viewBoxWidth / baseWidth;
+  const viewBoxX = (baseWidth - viewBoxWidth) / 2 - panOffset.x * panScale;
+  const viewBoxY = (baseHeight - viewBoxHeight) / 2 - panOffset.y * panScale;
+
   return (
     <section className="diagram-card">
       <div className="legend">
@@ -54,8 +94,54 @@ const ArchitectureDiagram = () => {
         ))}
       </div>
 
+      <div className="zoom-controls">
+        <button 
+          onClick={() => setZoomLevel(Math.max(0.5, zoomLevel - 0.1))}
+          className="zoom-button"
+          aria-label="축소"
+        >
+          −
+        </button>
+        <input
+          type="range"
+          min="0.5"
+          max="3"
+          step="0.1"
+          value={zoomLevel}
+          onChange={(e) => setZoomLevel(parseFloat(e.target.value))}
+          className="zoom-slider"
+          aria-label="줌 레벨"
+        />
+        <button 
+          onClick={() => setZoomLevel(Math.min(3, zoomLevel + 0.1))}
+          className="zoom-button"
+          aria-label="확대"
+        >
+          +
+        </button>
+        <button 
+          onClick={() => {
+            setZoomLevel(1);
+            setPanOffset({ x: 0, y: 0 });
+          }}
+          className="zoom-reset"
+          aria-label="원래 크기"
+        >
+          리셋
+        </button>
+        <span className="zoom-level">{Math.round(zoomLevel * 100)}%</span>
+      </div>
+
       <div className="diagram" role="img" aria-label="Raika the Wolfdog 시스템 아키텍처 다이어그램">
-        <svg viewBox="0 0 2400 1300" xmlns="http://www.w3.org/2000/svg">
+        <svg 
+          viewBox={`${viewBoxX} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`} 
+          xmlns="http://www.w3.org/2000/svg"
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseLeave}
+          style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+        >
           <defs>
             {/* 각 엣지 색상에 맞는 화살표 마커 생성 */}
             {EDGES.map((edge) => {
@@ -230,6 +316,12 @@ const ArchitectureDiagram = () => {
                 // 수직 방향: 라벨 X좌표 조정 (좌/우로)
                 labelX += offset * 2; // 화살표보다 더 띄워서 가독성 향상
               }
+            }
+
+            // 개별 라벨 오프셋 적용
+            if (edge.labelOffset) {
+              if (edge.labelOffset.x) labelX += edge.labelOffset.x;
+              if (edge.labelOffset.y) labelY += edge.labelOffset.y;
             }
 
             // 하이라이트 여부 확인

@@ -33,6 +33,7 @@ export interface Edge {
   target: string;
   label?: string;
   stroke?: string;
+  labelOffset?: { x?: number; y?: number };
 }
 
 export const CATEGORIES: Record<NodeCategory, { label: string; color: string }> = {
@@ -319,6 +320,7 @@ export const EDGES: Edge[] = [
     target: 'context-memory',
     label: '컨텍스트 관리',
     stroke: 'rgba(75, 214, 196, 0.6)',
+    labelOffset: { y: -15 },
   },
   {
     id: 'context-llm-feedback',
@@ -326,6 +328,7 @@ export const EDGES: Edge[] = [
     target: 'llm-engine',
     label: '요약 · 페르소나 주입',
     stroke: 'rgba(75, 214, 196, 0.6)',
+    labelOffset: { y: 15 },
   },
   {
     id: 'rag-doc',

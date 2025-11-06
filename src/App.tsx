@@ -1,6 +1,16 @@
+import { useState } from 'react';
 import ArchitectureDiagram from './components/ArchitectureDiagram';
 
 const App = () => {
+  const [selectedMedia, setSelectedMedia] = useState<{ type: 'image' | 'video'; src: string } | null>(null);
+
+  const sampleMedia = [
+    { type: 'image' as const, src: '/sample/image_test.png', name: 'Image Test' },
+    { type: 'image' as const, src: '/sample/Raika_document_analyzer.png', name: 'Document Analyzer' },
+    { type: 'image' as const, src: '/sample/Raika_winter.png', name: 'Raika Winter' },
+    { type: 'video' as const, src: '/sample/Raika_Introduce2.mp4', name: 'Raika Introduce' },
+  ];
+
   return (
     <div className="page">
       <header className="hero">
@@ -47,7 +57,45 @@ const App = () => {
             </ul>
           </div>
         </section>
+
+        <section className="sample-media-section">
+          <h2>샘플 시연 이미지 & 동영상</h2>
+          <div className="media-grid">
+            {sampleMedia.map((media, index) => (
+              <div
+                key={index}
+                className="media-thumbnail"
+                onClick={() => setSelectedMedia({ type: media.type, src: media.src })}
+              >
+                {media.type === 'image' ? (
+                  <img src={media.src} alt={media.name} />
+                ) : (
+                  <div className="video-thumbnail">
+                    <video src={media.src} />
+                    <div className="play-icon">▶</div>
+                  </div>
+                )}
+                <p className="media-name">{media.name}</p>
+              </div>
+            ))}
+          </div>
+        </section>
       </main>
+
+      {selectedMedia && (
+        <div className="media-modal" onClick={() => setSelectedMedia(null)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="close-button" onClick={() => setSelectedMedia(null)}>
+              ✕
+            </button>
+            {selectedMedia.type === 'image' ? (
+              <img src={selectedMedia.src} alt="Preview" />
+            ) : (
+              <video src={selectedMedia.src} controls autoPlay />
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
