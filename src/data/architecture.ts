@@ -146,6 +146,16 @@ export const NODES: Node[] = [
     height: 92,
   },
   {
+    id: 'deepseek-ocr',
+    title: 'DeepSeek OCR Service',
+    subtitle: 'deepseek_ocr_server.py · pdf_pipeline',
+    category: 'service',
+    x: 1020,
+    y: 1000,
+    width: 300,
+    height: 110,
+  },
+  {
     id: 'rag-orchestrator',
     title: 'LangChain / LangGraph Agents',
     subtitle: '의도 분류 · 도구 실행',
@@ -178,7 +188,7 @@ export const NODES: Node[] = [
   {
     id: 'doc-pipeline',
     title: 'Document Analyzer',
-    subtitle: '임베딩 · LangGraph QA',
+    subtitle: 'DeepSeek OCR 텍스트 · LangGraph QA',
     category: 'service',
     x: 1420,
     y: 380,
@@ -315,6 +325,27 @@ export const EDGES: Edge[] = [
     stroke: 'rgba(75, 214, 196, 0.8)',
   },
   {
+    id: 'main-api-deepseek-ocr',
+    source: 'main-api',
+    target: 'deepseek-ocr',
+    label: 'PDF 업로드 · deepseek_ocr_client',
+    stroke: 'rgba(75, 214, 196, 0.9)',
+  },
+  {
+    id: 'deepseek-ocr-doc',
+    source: 'deepseek-ocr',
+    target: 'doc-pipeline',
+    label: '정제 OCR 텍스트 공급',
+    stroke: 'rgba(75, 214, 196, 0.75)',
+  },
+  {
+    id: 'deepseek-ocr-redis',
+    source: 'deepseek-ocr',
+    target: 'redis',
+    label: 'OCR 결과 캐싱',
+    stroke: 'rgba(255, 185, 94, 0.65)',
+  },
+  {
     id: 'llm-context',
     source: 'llm-engine',
     target: 'context-memory',
@@ -394,4 +425,5 @@ export const EDGES: Edge[] = [
     stroke: 'rgba(255, 123, 136, 0.75)',
   },
 ];
+
 

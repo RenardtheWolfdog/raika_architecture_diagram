@@ -31,6 +31,7 @@ const App = () => {
             <ul>
               <li>Python · FastAPI · Uvicorn · python-socketio</li>
               <li>Multiprocessing 런처로 메인/DB/TTS 서버 분리</li>
+              <li>DeepSeek OCR FastAPI 마이크로서비스 · PDF 전처리 파이프라인</li>
               <li>transformers · bitsandbytes 4-bit · peft (LoRA)</li>
               <li>LangChain · LangGraph 에이전트 파이프라인</li>
               <li>Sentence-transformers · scikit-learn 기반 벡터 검색</li>
@@ -40,7 +41,7 @@ const App = () => {
             <h2>Data &amp; Infrastructure</h2>
             <ul>
               <li>MongoDB(motor)로 세션/히스토리 영속화</li>
-              <li>Redis 캐시에 중간 응답 · 파일 메타데이터 보관</li>
+              <li>Redis 캐시에 중간 응답 · OCR 결과 · 파일 메타데이터 보관</li>
               <li>AWS S3에 업로드 미디어 및 문서 저장</li>
               <li>Google Custom Search · OpenRouter · Weather/Time MCP 연동</li>
               <li>Custom TTS 서버가 WebSocket으로 오디오/에너지 스트림 전송</li>
@@ -51,6 +52,7 @@ const App = () => {
             <ul>
               <li>Socket.IO 기반 실시간 챗 &amp; 토큰 스트리밍</li>
               <li>페르소나 주입 + ShortTermMemory로 맥락 유지</li>
+              <li>DeepSeek OCR 기반 PDF → 텍스트 자동 변환 &amp; LangGraph 분석</li>
               <li>업로드 문서 RAG, 웹 검색, 멀티모달 분석 지원</li>
               <li>요청에 따른 외부 모델 위임(OpenRouter)</li>
               <li>Live2D 연동 립싱크, 응답 중단/이어가기 UX</li>
@@ -101,4 +103,5 @@ const App = () => {
 };
 
 export default App;
+
 
