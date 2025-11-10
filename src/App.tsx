@@ -1,15 +1,43 @@
 import { useState } from 'react';
 import ArchitectureDiagram from './components/ArchitectureDiagram';
 
-const App = () => {
-  const [selectedMedia, setSelectedMedia] = useState<{ type: 'image' | 'video'; src: string } | null>(null);
+type MediaItem = 
+  | { type: 'image'; src: string; name: string }
+  | { type: 'video'; src: string; name: string }
+  | { type: 'gallery'; images: string[]; name: string; description: string };
 
-  const sampleMedia = [
+const App = () => {
+  const [selectedMedia, setSelectedMedia] = useState<{ 
+    type: 'image' | 'video' | 'gallery'; 
+    src?: string; 
+    images?: string[];
+    currentIndex?: number;
+  } | null>(null);
+
+  const sampleMedia: MediaItem[] = [
     { type: 'image' as const, src: '/sample/image_test.png', name: 'Image Test' },
     { type: 'image' as const, src: '/sample/Raika_document_analyzer.png', name: 'Document Analyzer' },
     { type: 'image' as const, src: '/sample/Raika_winter.png', name: 'Raika Winter' },
     { type: 'video' as const, src: '/sample/Raika_introduce2.mp4', name: 'Raika Introduce' },
+    { 
+      type: 'gallery' as const, 
+      images: ['/sample/Raika_architecture1+2.png', '/sample/Raika_Architecture.png'],
+      name: 'PDF + Image 분석',
+      description: '아키텍처 문서 멀티모달 분석'
+    },
   ];
+
+  const handleGalleryNav = (direction: 'prev' | 'next') => {
+    if (!selectedMedia || selectedMedia.type !== 'gallery' || !selectedMedia.images) return;
+    
+    const currentIndex = selectedMedia.currentIndex || 0;
+    const totalImages = selectedMedia.images.length;
+    const newIndex = direction === 'next' 
+      ? (currentIndex + 1) % totalImages 
+      : (currentIndex - 1 + totalImages) % totalImages;
+    
+    setSelectedMedia({ ...selectedMedia, currentIndex: newIndex });
+  };
 
   return (
     <div className="page">
@@ -67,17 +95,38 @@ const App = () => {
               <div
                 key={index}
                 className="media-thumbnail"
-                onClick={() => setSelectedMedia({ type: media.type, src: media.src })}
+                onClick={() => {
+                  if (media.type === 'gallery') {
+                    setSelectedMedia({ type: 'gallery', images: media.images, currentIndex: 0 });
+                  } else if (media.type === 'image') {
+                    setSelectedMedia({ type: 'image', src: media.src });
+                  } else {
+                    setSelectedMedia({ type: 'video', src: media.src });
+                  }
+                }}
               >
                 {media.type === 'image' ? (
                   <img src={media.src} alt={media.name} />
-                ) : (
+                ) : media.type === 'video' ? (
                   <div className="video-thumbnail">
                     <video src={media.src} />
                     <div className="play-icon">▶</div>
                   </div>
+                ) : (
+                  <div className="gallery-thumbnail">
+                    <div className="gallery-preview">
+                      <img src={media.images[0]} alt={media.name} className="gallery-img-1" />
+                      <img src={media.images[1]} alt={media.name} className="gallery-img-2" />
+                    </div>
+                    <div className="gallery-badge">
+                      <span>📁 {media.images.length}장</span>
+                    </div>
+                  </div>
                 )}
                 <p className="media-name">{media.name}</p>
+                {media.type === 'gallery' && (
+                  <p className="media-description">{media.description}</p>
+                )}
               </div>
             ))}
           </div>
@@ -90,7 +139,31 @@ const App = () => {
             <button className="close-button" onClick={() => setSelectedMedia(null)}>
               ✕
             </button>
-            {selectedMedia.type === 'image' ? (
+            {selectedMedia.type === 'gallery' && selectedMedia.images ? (
+              <>
+                <img 
+                  src={selectedMedia.images[selectedMedia.currentIndex || 0]} 
+                  alt="Gallery Preview" 
+                />
+                <div className="gallery-controls">
+                  <button 
+                    className="gallery-nav prev" 
+                    onClick={(e) => { e.stopPropagation(); handleGalleryNav('prev'); }}
+                  >
+                    ‹
+                  </button>
+                  <span className="gallery-counter">
+                    {(selectedMedia.currentIndex || 0) + 1} / {selectedMedia.images.length}
+                  </span>
+                  <button 
+                    className="gallery-nav next" 
+                    onClick={(e) => { e.stopPropagation(); handleGalleryNav('next'); }}
+                  >
+                    ›
+                  </button>
+                </div>
+              </>
+            ) : selectedMedia.type === 'image' ? (
               <img src={selectedMedia.src} alt="Preview" />
             ) : (
               <video src={selectedMedia.src} controls autoPlay />
