@@ -71,7 +71,7 @@ export const CLUSTERS: Cluster[] = [
     x: 820,
     y: 160,
     width: 750,
-    height: 800,
+    height: 1000,
   },
   {
     id: 'data-layer',
