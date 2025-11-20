@@ -35,7 +35,7 @@ const App = () => {
       name: '음악 찾기' },
     { 
       type: 'gallery' as const, 
-      images: ['/sample/Raika_Twenty Questions1.png', '/sample/Raika_Twenty Questions2.png'],
+      images: ['/sample/Raika_Twenty_Questions_1.png', '/sample/Raika_Twenty_Questions_2.png'],
       name: '스무고개',
       description: '20 Questions 게임 시연'
     },
