@@ -30,9 +30,11 @@ const App = () => {
       name: '영화 검색',
       description: '불확실한 줄거리만으로도 영화를 찾아줍니다.'
     },
-    { type: 'image' as const,
-      src: '/sample/Raika_NaWanRay.png',
-      name: '음악 찾기' },
+    { type: 'gallery' as const,
+      images: ['/sample/Raika_NaWanRay.png', '/sample/Raika_짜장면벤치마크.png'],
+      name: '노래 찾기',
+      description: '노래 찾기 및 노래에 대한 배경을 추론합니다.'
+    },
     { 
       type: 'gallery' as const, 
       images: ['/sample/Raika_Twenty_Questions_1.png', '/sample/Raika_Twenty_Questions_2.png'],
