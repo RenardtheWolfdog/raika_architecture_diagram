@@ -27,11 +27,10 @@ const App = () => {
     },
     { 
       type: 'gallery' as const, 
-      images: ['/sample/Raika_Movie_Find1.png', '/sample/Raika_Movie_Find2.png'],
-      name: '영화 찾기',
-      description: 'Central Station 영화 검색 시연'
+      images: ['/sample/Raika_Twenty Questions1.png', '/sample/Raika_Twenty Questions2.png'],
+      name: '스무고개',
+      description: '20 Questions 게임 시연'
     },
-    { type: 'image' as const, src: '/sample/Raika_NaWanRay.png', name: '노래 찾기' },
   ];
 
   const handleGalleryNav = (direction: 'prev' | 'next') => {
