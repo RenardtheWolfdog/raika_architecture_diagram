@@ -25,6 +25,14 @@ const App = () => {
       name: 'PDF + Image 분석',
       description: '아키텍처 문서 멀티모달 분석'
     },
+    { type: 'gallery' as const, 
+      images: ['/sample/Raika_Movie_Find1.png', '/sample/Raika_Movie_Find2.png'],
+      name: '영화 검색',
+      description: '불확실한 줄거리만으로도 영화를 찾아줍니다.'
+    },
+    { type: 'image' as const,
+      src: '/sample/Raika_NaWanRay.png',
+      name: '음악 찾기' },
     { 
       type: 'gallery' as const, 
       images: ['/sample/Raika_Twenty Questions1.png', '/sample/Raika_Twenty Questions2.png'],
