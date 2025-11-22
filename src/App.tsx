@@ -18,6 +18,7 @@ const App = () => {
     { type: 'image' as const, src: '/sample/image_test.png', name: 'Image Test' },
     { type: 'image' as const, src: '/sample/Raika_document_analyzer.png', name: 'Document Analyzer' },
     { type: 'image' as const, src: '/sample/Raika_winter.png', name: 'Raika Winter' },
+    { type: 'image' as const, src: '/sample/Raika_Pokemon_RGB.png', name: 'Pokémon Game Guide with Raika' },
     { type: 'video' as const, src: '/sample/Raika_introduce2.mp4', name: 'Raika Introduce' },
     { 
       type: 'gallery' as const, 
