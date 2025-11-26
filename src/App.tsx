@@ -27,7 +27,7 @@ const App = () => {
       description: '아키텍처 문서 멀티모달 분석'
     },
     { type: 'gallery' as const, 
-      images: ['/sample/Raika_Movie_Find1.png', '/sample/Raika_Movie_Find2.png'],
+      images: ['/sample/Raika_Movie_Find3.png', '/sample/Raika_Movie_Find1.png', '/sample/Raika_Movie_Find2.png'],
       name: '영화 검색',
       description: '불확실한 줄거리만으로도 영화를 찾아줍니다.'
     },
